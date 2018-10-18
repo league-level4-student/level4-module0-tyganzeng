@@ -2,7 +2,7 @@ package _04_Maze_Maker;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Cell {
+public class Cel {
 	public static final int X_MARGIN = 100;
 	public static final int Y_MARGIN = 100;
 	
@@ -18,7 +18,7 @@ public class Cell {
 	private boolean eastWall; 
 	private boolean westWall;
 	
-	public Cell(int x, int y){
+	public Cel(int x, int y){
 		this.x = x;
 		this.y = y;
 		
