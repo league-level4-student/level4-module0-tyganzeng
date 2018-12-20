@@ -1,5 +1,10 @@
 package _02_Pixel_Art;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,6 +18,7 @@ public class GridInputPanel extends JPanel{
 	private JTextField rowsField;
 	private JTextField colsField;
 	private JButton submitButton;
+	private JButton loadButton;
 			
 	PixelArtMaker pam;
 	
@@ -24,6 +30,7 @@ public class GridInputPanel extends JPanel{
 		rowsField = new JTextField(5);
 		colsField = new JTextField(5);
 		submitButton = new JButton("Submit");
+		loadButton = new JButton("Load");
 		
 		add(new JLabel("screen width:"));
 		add(windowWidthField);
@@ -34,8 +41,35 @@ public class GridInputPanel extends JPanel{
 		add(new JLabel("\ttotal columns:"));
 		add(colsField);
 		add(submitButton);
+		add(loadButton);
 		
 		submitButton.addActionListener((e)->submit());
+		loadButton.addActionListener((e) -> load());
+		
+	}
+	
+	private void load() {
+		GridPanel gp = loadGP();
+		int w = gp.windowWidth;
+		int h = gp.windowHeight;
+		int r = gp.rows;
+		int c = gp.cols;
+
+		pam.submitGridData(w, h, r, c);
+		
+	}
+	private static GridPanel loadGP() {
+		try (FileInputStream fis = new FileInputStream(new File("saved.dat")); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			return (GridPanel) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	private void submit() {

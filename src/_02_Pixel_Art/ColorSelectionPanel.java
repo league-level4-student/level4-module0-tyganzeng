@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -71,8 +72,11 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		add(gSlider);
 		add(new JLabel("blue"));
 		add(bSlider);
+
 	}
 
+
+	
 	public Color getSelectedColor() {
 		return color;
 	}

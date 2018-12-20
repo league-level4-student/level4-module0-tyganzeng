@@ -3,8 +3,13 @@ package _02_Pixel_Art;
 import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javax.swing.JFrame;
+
 
 public class PixelArtMaker implements MouseListener{
 	private JFrame window;
@@ -25,7 +30,9 @@ public class PixelArtMaker implements MouseListener{
 	}
 
 	public void submitGridData(int w, int h, int r, int c) {
-		gp = new GridPanel(w, h, r, c);
+		//gp = new GridPanel(w, h, r, c);
+		gp = load();
+		gp.addListener();
 		csp = new ColorSelectionPanel();
 		window.remove(gip);
 		window.add(gp);
@@ -61,5 +68,19 @@ public class PixelArtMaker implements MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+	
+	private static GridPanel load() {
+		try (FileInputStream fis = new FileInputStream(new File("saved.dat")); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			return (GridPanel) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

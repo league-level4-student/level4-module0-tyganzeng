@@ -3,19 +3,29 @@ package _02_Pixel_Art;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class GridPanel extends JPanel{
-
-	private static final long serialVersionUID = 1L;
-	private int windowWidth;
-	private int windowHeight;
-	private int pixelWidth;
-	private int pixelHeight;
-	private int rows;
-	private int cols;
+public class GridPanel extends JPanel implements MouseListener, Serializable{
 	
+	private static final String DATA_FILE = "src/_05_Pixel_Art_Save_State/save.dat";
+	private static final long serialVersionUID = 1L;
+	public int windowWidth;
+	public int windowHeight;
+	public int pixelWidth;
+	public int pixelHeight;
+	public int rows;
+	public int cols;
+	
+	public JButton saveButton;
 	//1. Create a 2D array of pixels. Do not initialize it yet.
 	Pixel[][] pixels;
 	private Color color;
@@ -43,6 +53,21 @@ public class GridPanel extends JPanel{
 			}
 		}
 		
+		saveButton = new JButton("Save");
+		add(saveButton);
+		
+	}
+	
+	public void addListener() {
+		saveButton.addActionListener((e)->save(this));
+	}
+	public void save(GridPanel gp) {
+		try (FileOutputStream fos = new FileOutputStream(new File("saved.dat")); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+			oos.writeObject(gp);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Saved!");
 	}
 	
 	public void setColor(Color c) {
@@ -68,5 +93,35 @@ public class GridPanel extends JPanel{
 				g.drawRect(i*pixelWidth, j*pixelHeight, pixelWidth, pixelHeight);
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
